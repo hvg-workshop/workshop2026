@@ -2,7 +2,7 @@
 
 ## Summary
 
-Refactor the current `multi-route + dark tech` HVG workshop site into a `single-page anchor-based + light academic editorial` experience. The homepage should permanently present the workshop title `Human-Centric Video Generation` and the subtitle `Advancing controllable, realistic, and physically plausible human video synthesis for the ICPR 2026 research community.` Beneath the hero area, add a prominent sticky tab navigation for four sections: `OVERVIEW`, `INSTRUCTIONS FOR AUTHORS`, `COMMITTEE`, and `WORKSHOP PROGRAM`. The overall visual style should follow a light academic publication interface, and a fixed side `Back to top` button should be added for fast upward navigation.
+Refactor the current `multi-route + dark tech` HVG workshop site into a `single-page anchor-based + light academic editorial` experience. The homepage should permanently present the workshop title `Human-Centric Video Generation` and the subtitle `Advancing controllable, realistic, and physically plausible human video synthesis for the ICPR 2026 research community.` Beneath the hero area, add a prominent sticky tab navigation for four sections: `OVERVIEW`, `INSTRUCTIONS FOR AUTHORS`, `COMMITTEE`, and `WORKSHOP SCHEDULE`. The overall visual style should follow a light academic publication interface, and a fixed side `Back to top` button should be added for fast upward navigation.
 
 ## Key Changes
 
@@ -15,7 +15,7 @@ Refactor the current `multi-route + dark tech` HVG workshop site into a `single-
   - OVERVIEW
   - INSTRUCTIONS FOR AUTHORS
   - COMMITTEE
-  - WORKSHOP PROGRAM
+  - WORKSHOP SCHEDULE
   - Footer
 - The current public multi-route flow should no longer be the main navigation model.
 - Existing routes such as `/schedule`, `/submission`, and `/committee` should be reduced to compatibility entrypoints that redirect or link users back to the corresponding homepage anchors.
@@ -49,7 +49,7 @@ Refactor the current `multi-route + dark tech` HVG workshop site into a `single-
   - `OVERVIEW`
   - `INSTRUCTIONS FOR AUTHORS`
   - `COMMITTEE`
-  - `WORKSHOP PROGRAM`
+  - `WORKSHOP SCHEDULE`
 - The tab bar should be sticky after scrolling into content.
 - The current section should be highlighted while scrolling.
 - Add a fixed side button for smooth scrolling back to the top.
@@ -89,12 +89,12 @@ Refactor the current `multi-route + dark tech` HVG workshop site into a `single-
 - Replace the current shortened homepage-style summaries with fuller text blocks where appropriate.
 - Keep the shared workshop contact visible in or near this section if still needed.
 
-### 7. WORKSHOP PROGRAM Section
+### 7. WORKSHOP SCHEDULE Section
 
 - Use the `日程安排.png` content specifically related to HVG.
-- Emphasize that HVG belongs to the `Friday Aug 21` morning workshop block.
+- Emphasize that HVG belongs to the `Friday, 21 August 2026` morning workshop block.
 - Clearly display:
-  - `Friday Aug 21`
+  - `Friday, 21 August 2026`
   - `morning workshops 8:30-12:30`
   - `HVG`
 - Present the program information in a clean schedule snapshot layout consistent with the academic editorial style.
@@ -109,7 +109,7 @@ Refactor the current `multi-route + dark tech` HVG workshop site into a `single-
   - author instruction content
   - CMT submission link
   - CMT acknowledgment text
-  - workshop program snapshot
+  - WORKSHOP SCHEDULE snapshot
   - committee long-form bios
 - Committee people data should support long paragraphs rather than only short summaries.
 
@@ -138,7 +138,7 @@ Refactor the current `multi-route + dark tech` HVG workshop site into a `single-
 - Verify `the Microsoft CMT submission system` renders as a clickable link.
 - Verify the CMT acknowledgment text appears exactly and remains visible.
 - Verify the `COMMITTEE` section renders at least one long bio entry from the provided materials.
-- Verify the `WORKSHOP PROGRAM` section renders the HVG Friday morning workshop information.
+- Verify the `WORKSHOP SCHEDULE` section renders the HVG Friday morning workshop information.
 - Run:
   - `npm test`
   - `npm run lint`
