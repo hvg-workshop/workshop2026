@@ -294,6 +294,15 @@ describe('HVG single-page site', () => {
     expect(screen.getByText('wangjingdong@baidu.com')).toBeInTheDocument()
     expect(screen.queryByText('Email to be confirmed')).not.toBeInTheDocument()
     expect(screen.getByTestId('committee-grid').className).toContain('md:grid-cols-2')
+
+    const siyuEmailChip = screen.getByRole('link', { name: 'siyuzhu@fudan.edu.cn' })
+    const siyuCard = siyuEmailChip.closest('article')
+
+    expect(siyuCard?.className).toContain('relative')
+    expect(siyuEmailChip.className).toContain('absolute')
+    expect(siyuEmailChip.className).toContain('top-6')
+    expect(siyuEmailChip.className).toContain('right-6')
+
     expect(screen.getByRole('heading', { name: 'WORKSHOP SCHEDULE' })).toBeInTheDocument()
     expect(screen.getByText('Friday, 21 August 2026')).toBeInTheDocument()
     expect(screen.getByText('Full-Day Workshop | 08:30 – 17:30')).toBeInTheDocument()

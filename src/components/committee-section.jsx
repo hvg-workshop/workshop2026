@@ -10,10 +10,10 @@ export function CommitteeSection({ committee }) {
         {committee.members.map((member) => (
           <article
             key={`${member.name}-${member.email}`}
-            className="rounded-[1.8rem] border border-[var(--color-line)] bg-white p-6 shadow-[0_16px_45px_rgba(15,23,42,0.05)]"
+            className="relative rounded-[1.8rem] border border-[var(--color-line)] bg-white p-6 shadow-[0_16px_45px_rgba(15,23,42,0.05)]"
           >
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
+            <div>
+              <div className="pr-0 sm:pr-44">
                 <h3 className="text-2xl font-semibold text-[var(--color-text)]">{member.name}</h3>
                 <p className="mt-1 text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]">
                   {member.role}
@@ -23,7 +23,8 @@ export function CommitteeSection({ committee }) {
               {/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(member.email) ? (
                 <a
                   href={`mailto:${member.email}`}
-                  className="rounded-full border border-[var(--color-line)] bg-[var(--color-soft)] px-4 py-2 text-sm font-medium text-[var(--color-text)] transition hover:border-[rgba(37,99,235,0.24)] hover:text-[var(--color-primary)]"
+                  // 将邮箱胶囊固定在卡片右上角，避免长单位信息把它挤到下一行。
+                  className="absolute right-6 top-6 rounded-full border border-[var(--color-line)] bg-[var(--color-soft)] px-4 py-2 text-sm font-medium text-[var(--color-text)] transition hover:border-[rgba(37,99,235,0.24)] hover:text-[var(--color-primary)]"
                 >
                   {member.email}
                 </a>
