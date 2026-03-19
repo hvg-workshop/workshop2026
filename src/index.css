@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --color-paper: #fafafa;
+  --color-surface: #ffffff;
+  --color-soft: #f1f5f9;
+  --color-primary: #2563eb;
+  --color-accent: #d97706;
+  --color-text: #1e293b;
+  --color-muted: #475569;
+  --color-line: rgba(30, 41, 59, 0.12);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(217, 119, 6, 0.08), transparent 22%),
+    var(--color-paper);
+  color: var(--color-text);
+  font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
