@@ -14,10 +14,7 @@ import { workshopContent } from './content/workshop-content'
 function App() {
   return (
     <div className="min-h-screen bg-[var(--color-paper)] text-[var(--color-text)]">
-      <StickyTabs
-        brandLabel={workshopContent.brandLabel}
-        tabs={workshopContent.tabs}
-      />
+      <StickyTabs tabs={workshopContent.tabs} />
       <Hero id="overview" hero={workshopContent.hero} />
       <main className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
         <OverviewSection overview={workshopContent.overview} />

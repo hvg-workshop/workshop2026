@@ -2,8 +2,6 @@ import { workshopContent } from '../content/workshop-content'
 
 describe('workshop content model', () => {
   it('contains the expanded single-page sections and updated committee data', () => {
-    expect(workshopContent.brandLabel).toBe('HVG 2026')
-
     expect(workshopContent.tabs.map((tab) => tab.label)).toEqual([
       'OVERVIEW',
       'Topics',

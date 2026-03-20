@@ -1,5 +1,4 @@
 export const workshopContent = {
-  brandLabel: 'HVG 2026',
   tabs: [
     { id: 'overview', label: 'OVERVIEW' },
     { id: 'topics', label: 'Topics' },
