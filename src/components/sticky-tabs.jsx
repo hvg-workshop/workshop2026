@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 
 import { useActiveSection } from '../hooks/use-active-section'
-import { scrollToSection } from '../lib/section-navigation'
 
 export function StickyTabs({ tabs }) {
   const sectionIds = useMemo(() => tabs.map((tab) => tab.id), [tabs])
@@ -13,18 +12,17 @@ export function StickyTabs({ tabs }) {
     const nextHash = `#${sectionId}`
 
     if (window.location.hash !== nextHash) {
-      // 显式写入 hash，确保点击 tab、URL 和激活态始终走同一条同步链路。
+      // 显式写入 hash，确保点击 tab 后 URL、滚动和激活态始终走同一条同步链路。
       window.history.pushState(window.history.state, '', nextHash)
-      window.dispatchEvent(new HashChangeEvent('hashchange'))
-      return
     }
 
-    scrollToSection(sectionId)
+    // 即使 hash 没变，也重新触发一次同步链，避免“URL 已到位但高亮漂移”时无法重新对齐。
+    window.dispatchEvent(new HashChangeEvent('hashchange'))
   }
 
   return (
     <nav className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-[rgba(250,250,250,0.96)] backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl gap-3 overflow-x-auto px-4 py-4 sm:px-6 lg:justify-center lg:px-8">
+      <div className="mx-auto flex max-w-7xl gap-3 overflow-x-auto px-4 py-3 sm:px-6 lg:justify-center lg:px-8">
         {tabs.map((tab) => {
           const isActive = activeSection === tab.id
 
@@ -33,13 +31,13 @@ export function StickyTabs({ tabs }) {
               key={tab.id}
               href={`#${tab.id}`}
               onClick={(event) => handleTabClick(event, tab.id)}
-              className={`inline-flex whitespace-nowrap rounded-full border px-5 py-2.5 text-xs font-semibold tracking-[0.22em] transition ${
+              className={`inline-flex whitespace-nowrap rounded-full border px-5 py-2 text-xs font-semibold transition ${
                 isActive
                   ? 'border-[rgba(37,99,235,0.22)] bg-[rgba(37,99,235,0.12)] text-[var(--color-text)] shadow-[inset_0_0_0_1px_rgba(37,99,235,0.08)]'
                   : 'border-[var(--color-line)] bg-white text-[var(--color-muted)] hover:border-[rgba(37,99,235,0.24)] hover:bg-[rgba(37,99,235,0.04)] hover:text-[var(--color-text)]'
               }`}
             >
-              {tab.label}
+              {tab.label.toUpperCase()}
             </a>
           )
         })}
