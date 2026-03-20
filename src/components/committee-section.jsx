@@ -19,7 +19,7 @@ function FeaturedMemberCard({ member }) {
       <div>
         <div className="pr-0 sm:pr-44">
           <h3 className="text-2xl font-semibold text-[var(--color-text)]">{member.name}</h3>
-          <p className="mt-1 text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]">
+          <p className="mt-1 text-sm font-medium uppercase text-[var(--color-primary)]">
             {member.role}
           </p>
           <p className="mt-3 text-sm text-[var(--color-muted)]">{member.affiliation}</p>
@@ -49,7 +49,7 @@ function GroupedMemberBlock({ member, isFirst }) {
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="space-y-2">
           <h4 className="text-2xl font-semibold text-[var(--color-text)]">{member.name}</h4>
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]">
+          <p className="text-sm font-medium uppercase text-[var(--color-primary)]">
             {member.role}
           </p>
           <p className="text-sm text-[var(--color-muted)]">{member.affiliation}</p>
