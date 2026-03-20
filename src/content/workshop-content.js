@@ -15,7 +15,7 @@ export const workshopContent = {
     eventLabel: 'ICPR 2026 WORKSHOP',
   },
   overview: {
-    title: 'OVERVIEW',
+    title: 'Overview',
     paragraphs: [
       'The Workshop on Human-Centric Video Generation (HVG) will focus on advancing methodologies for synthesizing realistic 2D human videos guided by multimodal control signals such as text, audio, and pose, while addressing critical challenges in temporal consistency, anatomical fidelity, and environmental interaction.',
       'Aligned with recent advances in diffusion models, auto-regressive models, and generative AI, this workshop emphasizes three core technical pillars: conditional motion synthesis, quality assurance, and evaluation frameworks for human video generation.',

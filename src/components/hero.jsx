@@ -7,7 +7,7 @@ export function Hero({ hero, id }) {
           data-testid="hero-content"
           className="mx-auto flex max-w-5xl flex-col items-center space-y-7 text-center"
         >
-          <div className="inline-flex rounded-full border border-[var(--color-line)] bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--color-primary)]">
+          <div className="inline-flex rounded-full border border-[var(--color-line)] bg-white/85 px-4 py-2 text-xs font-semibold uppercase text-[var(--color-primary)]">
             {hero.eventLabel}
           </div>
           <div className="space-y-5">
