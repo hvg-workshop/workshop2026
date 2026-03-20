@@ -11,6 +11,7 @@ export function useActiveSection(sectionIds) {
   const pendingHashTargetRef = useRef('')
   const pendingTargetScrollTopRef = useRef(0)
   const pendingScrollDirectionRef = useRef('down')
+  const lastScrollYRef = useRef(0)
   const visibleSectionIdsRef = useRef(new Set())
   const [activeSection, setActiveSection] = useState(() => {
     const hashValue = getSectionHash(sectionIds)
@@ -24,6 +25,10 @@ export function useActiveSection(sectionIds) {
       return undefined
     }
 
+    lastScrollYRef.current = window.scrollY
+
+    const getSectionIndex = (sectionId) => sections.findIndex((section) => section.id === sectionId)
+
     const syncHash = (nextSectionId) => {
       const nextHash = `#${nextSectionId}`
 
@@ -35,31 +40,42 @@ export function useActiveSection(sectionIds) {
     }
 
     const resolveNextSection = () => {
-      // 页面靠近顶部时优先高亮 OVERVIEW，避免短页面或测试环境误判到后面的区块。
       if (window.scrollY <= 24) {
         return sections[0]?.id ?? ''
       }
 
-      if (isNearPageBottom()) {
-        return sections.at(-1)?.id ?? ''
-      }
-
-      const visibleSections = sections.filter((section) => visibleSectionIdsRef.current.has(section.id))
-
-      if (visibleSections.length) {
-        return visibleSections.at(-1)?.id ?? ''
-      }
-
       const activationLine = window.scrollY + SECTION_SCROLL_OFFSET + 48
-      let nextActiveSection = sections[0]?.id ?? ''
+      let offsetSectionId = sections[0]?.id ?? ''
 
       for (const section of sections) {
         if (activationLine >= section.offsetTop) {
-          nextActiveSection = section.id
+          offsetSectionId = section.id
         }
       }
 
-      return nextActiveSection
+      const lastSection = sections.at(-1)
+
+      // 最后一个区块较短时，滚动到底部附近也要允许它成为激活态。
+      if (isNearPageBottom() && lastSection) {
+        const hasReachedLastSection =
+          visibleSectionIdsRef.current.has(lastSection.id) || activationLine >= lastSection.offsetTop
+
+        if (hasReachedLastSection) {
+          return lastSection.id
+        }
+      }
+
+      const visibleSections = sections.filter((section) => visibleSectionIdsRef.current.has(section.id))
+      const deepestVisibleSection = visibleSections.at(-1)
+
+      if (!deepestVisibleSection) {
+        return offsetSectionId
+      }
+
+      // 只有当可见区里的 section 确实比“已越过顶部”的 section 更靠后时，才允许它覆盖激活态。
+      return getSectionIndex(deepestVisibleSection.id) >= getSectionIndex(offsetSectionId)
+        ? deepestVisibleSection.id
+        : offsetSectionId
     }
 
     const commitActiveSection = (nextSectionId, options = {}) => {
@@ -83,6 +99,7 @@ export function useActiveSection(sectionIds) {
       pendingHashTargetRef.current = nextSectionId
       pendingTargetScrollTopRef.current = targetScrollTop
       pendingScrollDirectionRef.current = targetScrollTop >= window.scrollY ? 'down' : 'up'
+      lastScrollYRef.current = window.scrollY
     }
 
     const clearPendingTarget = () => {
@@ -91,6 +108,9 @@ export function useActiveSection(sectionIds) {
     }
 
     const resolveByScrollPosition = () => {
+      const currentScrollY = window.scrollY
+      const previousScrollY = lastScrollYRef.current
+
       // 点击 tab 后先锁定目标，等页面真正滚动到位后再恢复实时滚动判定。
       if (pendingHashTargetRef.current) {
         const targetSection = document.getElementById(pendingHashTargetRef.current)
@@ -98,21 +118,35 @@ export function useActiveSection(sectionIds) {
         if (targetSection) {
           const targetScrollTop = pendingTargetScrollTopRef.current
           const scrollDirection = pendingScrollDirectionRef.current
+          const activationLine = currentScrollY + SECTION_SCROLL_OFFSET + 48
+          const isLastTarget = targetSection.id === sections.at(-1)?.id
+          const scrollDelta = Math.abs(currentScrollY - previousScrollY)
+          const isSignificantReverse = scrollDelta > 24
+          const isReversingAwayFromTarget =
+            isSignificantReverse &&
+            ((scrollDirection === 'down' && currentScrollY < previousScrollY) ||
+              (scrollDirection === 'up' && currentScrollY > previousScrollY))
           const hasReachedTarget =
-            Math.abs(window.scrollY - targetScrollTop) <= 16 ||
-            (scrollDirection === 'down' && window.scrollY >= targetScrollTop - 16) ||
-            (scrollDirection === 'up' && window.scrollY <= targetScrollTop + 16) ||
-            (targetSection.id === sections.at(-1)?.id && isNearPageBottom())
+            Math.abs(currentScrollY - targetScrollTop) <= 32 ||
+            (scrollDirection === 'down' && currentScrollY >= targetScrollTop - 32) ||
+            (scrollDirection === 'up' && currentScrollY <= targetScrollTop + 32) ||
+            (isLastTarget &&
+              isNearPageBottom() &&
+              (visibleSectionIdsRef.current.has(targetSection.id) || activationLine >= targetSection.offsetTop))
 
-          if (!hasReachedTarget) {
+          if (!hasReachedTarget && !isReversingAwayFromTarget) {
+            lastScrollYRef.current = currentScrollY
             commitActiveSection(pendingHashTargetRef.current, { syncUrl: false })
             return
           }
-        }
 
-        clearPendingTarget()
+          clearPendingTarget()
+        } else {
+          clearPendingTarget()
+        }
       }
 
+      lastScrollYRef.current = currentScrollY
       commitActiveSection(resolveNextSection())
     }
 
