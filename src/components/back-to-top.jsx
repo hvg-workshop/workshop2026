@@ -3,6 +3,19 @@ import { useEffect, useState } from 'react'
 export function BackToTop() {
   const [visible, setVisible] = useState(false)
 
+  const handleBackToTop = () => {
+    const nextHash = '#overview'
+
+    if (window.location.hash !== nextHash) {
+      // 回顶按钮也走和 tab 点击一致的 hash 同步链路，避免 URL 和激活态滞后。
+      window.history.pushState(window.history.state, '', nextHash)
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+      return
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       setVisible(window.scrollY > 480)
@@ -18,7 +31,7 @@ export function BackToTop() {
     <button
       type="button"
       aria-label="Scroll to top"
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onClick={handleBackToTop}
       className={`fixed bottom-8 right-8 z-40 rounded-full border border-[var(--color-line)] bg-white p-3 text-[var(--color-text)] shadow-[0_14px_35px_rgba(15,23,42,0.14)] transition ${
         visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'
       }`}
