@@ -1,51 +1,44 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 
 import App from '../App'
 
 describe('HVG single-page site', () => {
-  it('renders the workshop hero and uppercase tab navigation', () => {
-    render(<App />)
+  it('renders the updated tab labels and centered hero', () => {
+    const { container } = render(<App />)
 
-    const overviewTab = screen.getByRole('link', { name: 'OVERVIEW' })
+    const nav = container.querySelector('nav')
+    const tabs = within(nav).getAllByRole('link')
+    const tabLabels = tabs.map((tab) => tab.textContent)
     const heroHeading = screen.getByRole('heading', { name: 'Human-Centric Video Generation(HVG)' })
+    const heroContent = screen.getByTestId('hero-content')
+    const hero = container.querySelector('header')
 
-    expect(heroHeading).toBeInTheDocument()
-    expect(screen.getByText('ICPR 2026 WORKSHOP')).toBeInTheDocument()
-    expect(screen.queryByText('PROPOSAL')).not.toBeInTheDocument()
-    expect(
-      screen.getByText(
-        'Advancing controllable, realistic, and physically plausible human video synthesis for the ICPR 2026 research community.',
-      ),
-    ).toBeInTheDocument()
-    expect(screen.queryByText('Static Single-Page Site')).not.toBeInTheDocument()
-    expect(screen.queryByText('Double-blind')).not.toBeInTheDocument()
-    expect(screen.queryByText('Microsoft CMT')).not.toBeInTheDocument()
-    expect(overviewTab).toHaveAttribute('href', '#overview')
-    expect(screen.getByRole('link', { name: 'INSTRUCTIONS FOR AUTHORS' })).toHaveAttribute(
+    expect(tabLabels).toEqual([
+      'OVERVIEW',
+      'Topics',
+      'Important Dates',
+      'Instructions for Authors',
+      'Committee',
+      'Workshop Schedule',
+      'Contact',
+    ])
+    expect(screen.getByRole('link', { name: 'OVERVIEW' })).toHaveAttribute('href', '#overview')
+    expect(screen.getByRole('link', { name: 'Topics' })).toHaveAttribute('href', '#topics')
+    expect(screen.getByRole('link', { name: 'Important Dates' })).toHaveAttribute('href', '#important-dates')
+    expect(screen.getByRole('link', { name: 'Instructions for Authors' })).toHaveAttribute(
       'href',
       '#instructions-for-authors',
     )
-    expect(screen.getByRole('link', { name: 'COMMITTEE' })).toHaveAttribute('href', '#committee')
-    expect(screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Committee' })).toHaveAttribute('href', '#committee')
+    expect(screen.getByRole('link', { name: 'Workshop Schedule' })).toHaveAttribute(
       'href',
       '#workshop-schedule',
     )
+    expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '#contact')
+    expect(nav?.compareDocumentPosition(hero)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+    expect(heroContent.className).toContain('items-center')
+    expect(heroContent.className).toContain('text-center')
     expect(document.getElementById('overview')).toContainElement(heroHeading)
-    expect(overviewTab.className).not.toContain('text-white')
-    expect(
-      screen.queryByText(
-        'A concise editorial overview of the workshop motivation, research pillars, and target topics.',
-      ),
-    ).not.toBeInTheDocument()
-    expect(screen.queryByText('Workshop Scope')).not.toBeInTheDocument()
-    expect(screen.queryByText('Author Information')).not.toBeInTheDocument()
-    expect(screen.queryByText('Organizing Team')).not.toBeInTheDocument()
-    expect(screen.queryByText('Schedule Snapshot')).not.toBeInTheDocument()
-    expect(screen.getByText('ICPR 2026 WORKSHOP')).toBeInTheDocument()
-    expect(screen.queryByText('PROPOSAL')).not.toBeInTheDocument()
-    expect(screen.queryByText('Static Single-Page Site')).not.toBeInTheDocument()
-    expect(screen.queryByText('Double-blind')).not.toBeInTheDocument()
-    expect(screen.queryByText('Microsoft CMT')).not.toBeInTheDocument()
   })
 
   it('updates the active tab when the current section hash changes', () => {
@@ -53,7 +46,7 @@ describe('HVG single-page site', () => {
     render(<App />)
 
     const overviewTab = screen.getByRole('link', { name: 'OVERVIEW' })
-    const committeeTab = screen.getByRole('link', { name: 'COMMITTEE' })
+    const committeeTab = screen.getByRole('link', { name: 'Committee' })
 
     expect(overviewTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
     expect(committeeTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
@@ -67,17 +60,17 @@ describe('HVG single-page site', () => {
     })
   })
 
-  it('syncs hash and active state when clicking the WORKSHOP SCHEDULE tab', async () => {
+  it('syncs hash and active state when clicking the Contact tab', async () => {
     window.history.pushState({}, '', '#overview')
     render(<App />)
 
-    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
+    const contactTab = screen.getByRole('link', { name: 'Contact' })
 
-    fireEvent.click(scheduleTab)
+    fireEvent.click(contactTab)
 
     await waitFor(() => {
-      expect(window.location.hash).toBe('#workshop-schedule')
-      expect(scheduleTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(window.location.hash).toBe('#contact')
+      expect(contactTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
     })
   })
 
@@ -88,17 +81,23 @@ describe('HVG single-page site', () => {
     window.scrollTo.mockClear()
 
     const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
     const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 700 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 1400 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 2100 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 680 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1280 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 1880 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2480 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3080 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 3680 })
 
     Object.defineProperty(window, 'scrollY', {
-      value: 1500,
+      value: 2500,
       writable: true,
       configurable: true,
     })
@@ -115,50 +114,56 @@ describe('HVG single-page site', () => {
     })
   })
 
-  it('updates the active tab while scrolling after a tab jump', async () => {
+  it('updates the active tab while scrolling to Important Dates after a tab jump', async () => {
     window.history.pushState({}, '', '#overview')
     Object.defineProperty(window, 'scrollY', {
       value: 0,
       writable: true,
       configurable: true,
     })
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 5200,
+    })
     render(<App />)
 
     const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
     const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 700 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 1400 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 2100 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 680 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1280 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 1880 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2480 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3080 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 3680 })
 
-    const committeeTab = screen.getByRole('link', { name: 'COMMITTEE' })
-    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
-
-    window.history.pushState({}, '', '#committee')
-    window.dispatchEvent(new HashChangeEvent('hashchange'))
-
-    await waitFor(() => {
-      expect(committeeTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
-    })
+    const datesTab = screen.getByRole('link', { name: 'Important Dates' })
 
     Object.defineProperty(window, 'scrollY', {
-      value: 2050,
+      value: 1240,
       writable: true,
       configurable: true,
     })
     fireEvent.scroll(window)
 
     await waitFor(() => {
-      expect(scheduleTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
-      expect(committeeTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
-      expect(window.location.hash).toBe('#workshop-schedule')
+      expect(datesTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(window.location.hash).toBe('#important-dates')
     })
   })
 
-  it('activates WORKSHOP SCHEDULE near the page bottom even when the last section is short', async () => {
+  it('activates Contact near the page bottom even when the last section is short', async () => {
     window.history.pushState({}, '', '#committee')
     Object.defineProperty(window, 'scrollY', {
       value: 0,
@@ -168,14 +173,20 @@ describe('HVG single-page site', () => {
     render(<App />)
 
     const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
     const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 1560 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 2720 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
 
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
@@ -184,33 +195,28 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 3600,
+      value: 4980,
     })
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 2705,
+      value: 4075,
     })
 
     fireEvent.scroll(window)
 
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' }).className).toContain(
+      expect(screen.getByRole('link', { name: 'Contact' }).className).toContain(
         'bg-[rgba(37,99,235,0.12)]',
       )
-      expect(window.location.hash).toBe('#workshop-schedule')
+      expect(window.location.hash).toBe('#contact')
     })
   })
 
   it('renders the author instructions with the CMT acknowledgement and link', () => {
     render(<App />)
 
-    expect(screen.getByRole('heading', { name: 'INSTRUCTIONS FOR AUTHORS' })).toBeInTheDocument()
-    expect(
-      screen.queryByText(
-        'This section combines core author guidance, submission logistics, and the proposal-side review, diversity, and ethics statements required for the workshop website.',
-      ),
-    ).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Instructions for Authors' })).toBeInTheDocument()
     expect(screen.getByText('Submission Guidelines')).toBeInTheDocument()
     expect(screen.getByText('Submission System')).toBeInTheDocument()
     expect(screen.getByText('Acknowledgement')).toBeInTheDocument()
@@ -223,96 +229,120 @@ describe('HVG single-page site', () => {
         /The conference workshop proceeding will be published in the Lecture Notes in Computer Science \(LNCS\) series\./i,
       ),
     ).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'ICPR 2026 website' })).toHaveAttribute(
-      'href',
-      'https://icpr2026.org/authors.html',
-    )
+
     const icprWebsiteLink = screen.getByRole('link', { name: 'ICPR 2026 website' })
     const cmtLink = screen.getByRole('link', { name: /the microsoft cmt submission system/i })
 
-    expect(cmtLink).toHaveAttribute(
-      'href',
-      'https://cmt3.research.microsoft.com/',
-    )
+    expect(icprWebsiteLink).toHaveAttribute('href', 'https://icpr2026.org/authors.html')
+    expect(cmtLink).toHaveAttribute('href', 'https://cmt3.research.microsoft.com/')
     expect(cmtLink).toHaveAttribute('target', '_blank')
     expect(icprWebsiteLink).toHaveAttribute('target', '_blank')
     expect(icprWebsiteLink.className).toContain('font-bold')
     expect(icprWebsiteLink.className).toContain('text-[var(--color-text)]')
     expect(icprWebsiteLink.className).toContain('text-[1.125rem]')
-    expect(icprWebsiteLink.className).not.toContain('text-[var(--color-primary)]')
     expect(cmtLink.className).toContain('font-bold')
     expect(cmtLink.className).toContain('text-[var(--color-text)]')
     expect(cmtLink.className).toContain('text-[1.125rem]')
-    expect(cmtLink.className).not.toContain('text-[var(--color-primary)]')
     expect(
       screen.getByText(
         'The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.',
       ),
     ).toBeInTheDocument()
-
-    const submissionGuidelinesCard = screen.getByText('Submission Guidelines').closest('article')
-    const submissionSystemCard = screen.getByText('Submission System').closest('article')
-    const acknowledgementCard = screen.getByText('Acknowledgement').closest('article')
-
-    expect(submissionGuidelinesCard?.className).toContain('border-[var(--color-line)]')
-    expect(submissionGuidelinesCard?.className).toContain('bg-white')
-    expect(submissionSystemCard?.className).toBe(submissionGuidelinesCard?.className)
-    expect(acknowledgementCard?.className).toBe(submissionGuidelinesCard?.className)
   })
 
-  it('renders overview pillars inside a single grouped card', () => {
+  it('renders overview pillars and separates Topics into its own section', () => {
     render(<App />)
 
+    const overviewSection = screen.getByRole('heading', { name: 'OVERVIEW' }).closest('section')
+    const topicsSection = document.getElementById('topics')
     const pillarsCard = screen.getByTestId('overview-pillars-card')
     const pillarItems = screen.getAllByTestId('overview-pillar-item')
     const pillarsTitle = screen.getByRole('heading', { name: 'Core Research Pillars' })
-    const topicsTitle = screen.getByRole('heading', { name: 'Topics' })
     const firstPillarTitle = screen.getByRole('heading', { name: 'Conditional Motion Synthesis' })
+    const topicsList = within(topicsSection).getByRole('list')
 
     expect(pillarsCard).toBeInTheDocument()
     expect(pillarItems).toHaveLength(3)
     expect(pillarsTitle).toBeInTheDocument()
-    expect(topicsTitle.className).toBe(pillarsTitle.className)
+    expect(pillarsTitle.className).toContain('text-2xl')
     expect(firstPillarTitle.className).toContain('text-xl')
-    expect(firstPillarTitle.className).not.toContain('text-2xl')
     expect(screen.queryByText('01')).not.toBeInTheDocument()
-    expect(screen.queryByText('02')).not.toBeInTheDocument()
-    expect(screen.queryByText('03')).not.toBeInTheDocument()
     expect(screen.getAllByTestId('overview-pillar-dot')).toHaveLength(3)
+    expect(screen.getByRole('heading', { name: 'Topics' })).toBeInTheDocument()
+    expect(within(topicsSection).getByText(/Text-Driven Synthesis/i)).toBeInTheDocument()
+    expect(within(topicsSection).getAllByTestId('topic-dot')).toHaveLength(8)
+    expect(topicsList.className).toContain('text-base')
+    expect(within(overviewSection).queryByText(/Text-Driven Synthesis/i)).not.toBeInTheDocument()
   })
 
-  it('renders committee and WORKSHOP SCHEDULE content', () => {
+  it('renders Important Dates, Committee updates, Workshop Schedule, and Contact', () => {
     render(<App />)
 
-    expect(screen.getByRole('link', { name: 'COMMITTEE' })).toHaveAttribute('href', '#committee')
-    expect(screen.getByRole('heading', { name: 'COMMITTEE' })).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'GENERAL CHAIRS' })).not.toBeInTheDocument()
-    expect(screen.getByText('Siyu Zhu')).toBeInTheDocument()
-    expect(screen.getByText(/He leads the generative vision lab/i)).toBeInTheDocument()
-    expect(screen.queryByText('WORKSHOP CONTACT')).not.toBeInTheDocument()
-    expect(screen.getByText('siyuzhu@fudan.edu.cn')).toBeInTheDocument()
-    expect(screen.getByText('wangjingdong@baidu.com')).toBeInTheDocument()
-    expect(screen.queryByText('Email to be confirmed')).not.toBeInTheDocument()
+    const importantDatesSection = screen.getByRole('heading', { name: 'Important Dates' }).closest('section')
+
+    expect(screen.getByRole('heading', { name: 'Important Dates' })).toBeInTheDocument()
+    expect(within(importantDatesSection).getByTestId('important-date-row-0').textContent).toBe(
+      'Submission Deadline:May 01, 2026',
+    )
+    expect(within(importantDatesSection).getByTestId('important-date-row-1').textContent).toBe(
+      'Author Notification:June 10, 2026',
+    )
+    expect(within(importantDatesSection).getByTestId('important-date-row-2').textContent).toBe(
+      'Camera-Ready Deadline:June 20, 2026',
+    )
+    expect(within(importantDatesSection).getByTestId('important-date-row-3').textContent).toBe(
+      'Workshop Date:August 21, 2026',
+    )
+    expect(within(importantDatesSection).getByTestId('important-date-row-1').className).toContain('border-t')
+
+    expect(screen.getByRole('heading', { name: 'Committee' })).toBeInTheDocument()
+    expect(screen.getByText('Hui Li')).toBeInTheDocument()
+    expect(screen.getByText('Baoyou Chen')).toBeInTheDocument()
+    expect(screen.getByText(/video face restortion and human-centric video generation/i)).toBeInTheDocument()
+    expect(screen.getByText('khcheng24@m.fudan.edu.cn')).toBeInTheDocument()
+    expect(screen.getByText('bychen25@m.fudan.edu.cn')).toBeInTheDocument()
     expect(screen.getByTestId('committee-grid').className).toContain('md:grid-cols-2')
+    expect(screen.getByTestId('committee-grid').querySelectorAll('article')).toHaveLength(5)
+    expect(screen.getByTestId('committee-grouped-card')).toBeInTheDocument()
+    expect(screen.queryByText('Organizing Members')).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Early-Career Organizing Team' })).not.toBeInTheDocument()
 
-    const siyuEmailChip = screen.getByRole('link', { name: 'siyuzhu@fudan.edu.cn' })
-    const siyuCard = siyuEmailChip.closest('article')
+    const committeeSection = screen.getByRole('heading', { name: 'Committee' }).closest('section')
+    const groupedCard = screen.getByTestId('committee-grouped-card')
+    const huiCard = within(groupedCard).getByText('Hui Li').closest('section')
+    const baoyouCard = within(groupedCard).getByText('Baoyou Chen').closest('section')
+    const quanhuiCard = within(groupedCard).getByText('Quanhui Tang').closest('section')
+    const earlyCareerCards = [huiCard, baoyouCard, quanhuiCard]
 
-    expect(siyuCard?.className).toContain('relative')
-    expect(siyuEmailChip.className).toContain('absolute')
-    expect(siyuEmailChip.className).toContain('top-6')
-    expect(siyuEmailChip.className).toContain('right-6')
-
-    expect(screen.getByRole('heading', { name: 'WORKSHOP SCHEDULE' })).toBeInTheDocument()
-    expect(screen.getByText('Friday, 21 August 2026')).toBeInTheDocument()
-    expect(screen.getByText('Full-Day Workshop | 08:30 – 17:30')).toBeInTheDocument()
-    expect(screen.queryByText('Adjacent Friday Morning Workshops')).not.toBeInTheDocument()
-    expect(screen.getAllByText('HVG').length).toBeGreaterThan(0)
     expect(
-      screen.queryByText(
-        'HVG 2026 is presented as a light academic editorial microsite for the ICPR 2026 workshop proposal, author information, and committee overview.',
-      ),
-    ).not.toBeInTheDocument()
+      screen.getAllByRole('link', { name: /@/i }).find((emailLink) => emailLink.textContent === 'siyuzhu@fudan.edu.cn')
+        ?.className,
+    ).toContain('absolute')
+    expect(within(groupedCard).getByRole('link', { name: 'bychen25@m.fudan.edu.cn' }).className).not.toContain(
+      'absolute',
+    )
+    expect(
+      earlyCareerCards.every((card) => within(card).getAllByText((_, element) => element?.tagName === 'P').length >= 3),
+    ).toBe(true)
+    expect(huiCard?.closest('article')).toBe(groupedCard)
+    expect(baoyouCard?.compareDocumentPosition(within(groupedCard).getByText('Mingwang Xu').closest('section'))).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(committeeSection.querySelectorAll('article')).toHaveLength(6)
+
+    expect(screen.getByRole('heading', { name: 'Workshop Schedule' })).toBeInTheDocument()
+    expect(screen.getByText('Friday, 21 August 2026')).toBeInTheDocument()
+    expect(screen.getByText('Full-Day Workshop | 08:30-17:30')).toBeInTheDocument()
+    expect(screen.getAllByText('HVG').length).toBeGreaterThan(0)
+
+    const contactSection = document.getElementById('contact')
+
+    expect(within(contactSection).getByRole('heading', { name: 'Contact' })).toBeInTheDocument()
+    expect(within(contactSection).getByText('Quanhui Tang')).toBeInTheDocument()
+    expect(within(contactSection).getByRole('link', { name: 'qhtang25@m.fudan.edu.cn' })).toHaveAttribute(
+      'href',
+      'mailto:qhtang25@m.fudan.edu.cn',
+    )
   })
 
   it('reveals the back-to-top button after scrolling and triggers smooth scroll', () => {
@@ -327,7 +357,6 @@ describe('HVG single-page site', () => {
     expect(backToTopButton.className).toContain('opacity-0')
     expect(backToTopButton.className).toContain('right-8')
     expect(backToTopButton.className).toContain('bottom-8')
-    expect(backToTopButton).not.toHaveTextContent('Back to top')
 
     Object.defineProperty(window, 'scrollY', {
       value: 640,

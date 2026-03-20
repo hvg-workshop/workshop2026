@@ -1,9 +1,12 @@
 export const workshopContent = {
   tabs: [
     { id: 'overview', label: 'OVERVIEW' },
-    { id: 'instructions-for-authors', label: 'INSTRUCTIONS FOR AUTHORS' },
-    { id: 'committee', label: 'COMMITTEE' },
-    { id: 'workshop-schedule', label: 'WORKSHOP SCHEDULE' },
+    { id: 'topics', label: 'Topics' },
+    { id: 'important-dates', label: 'Important Dates' },
+    { id: 'instructions-for-authors', label: 'Instructions for Authors' },
+    { id: 'committee', label: 'Committee' },
+    { id: 'workshop-schedule', label: 'Workshop Schedule' },
+    { id: 'contact', label: 'Contact' },
   ],
   hero: {
     title: 'Human-Centric Video Generation(HVG)',
@@ -12,7 +15,6 @@ export const workshopContent = {
     eventLabel: 'ICPR 2026 WORKSHOP',
   },
   overview: {
-    eyebrow: 'Workshop Scope',
     title: 'OVERVIEW',
     paragraphs: [
       'The Workshop on Human-Centric Video Generation (HVG) will focus on advancing methodologies for synthesizing realistic 2D human videos guided by multimodal control signals such as text, audio, and pose, while addressing critical challenges in temporal consistency, anatomical fidelity, and environmental interaction.',
@@ -37,7 +39,10 @@ export const workshopContent = {
           'Metrics for temporal stability, biomechanical plausibility, action accuracy, and environment interaction.',
       },
     ],
-    topics: [
+  },
+  topics: {
+    title: 'Topics',
+    items: [
       'Text-Driven Synthesis: Generating human videos from textual descriptions with accurate action-semantic alignment.',
       'Audio-Gesture Synchronization: Modeling co-speech gesture dynamics from audio-visual correlations.',
       'Pose-Guided Motion Transfer: Transferring source motion to target subjects while preserving identity and context.',
@@ -48,29 +53,28 @@ export const workshopContent = {
       '3D-Consistent Avatars: Bridging 2D generation with 3D-aware representations for viewpoint-invariant synthesis.',
     ],
   },
+  importantDates: {
+    title: 'Important Dates',
+    items: [
+      'Submission Deadline: May 01, 2026',
+      'Author Notification: June 10, 2026',
+      'Camera-Ready Deadline: June 20, 2026',
+      'Workshop Date: August 21, 2026',
+    ],
+  },
   authorInstructions: {
-    eyebrow: 'Author Information',
-    title: 'INSTRUCTIONS FOR AUTHORS',
-    introduction:
-      'This section combines core author guidance, submission logistics, and the proposal-side review, diversity, and ethics statements required for the workshop website.',
+    title: 'Instructions for Authors',
     submissionGuidelines:
       'The conference workshop proceeding will be published in the Lecture Notes in Computer Science (LNCS) series. The authors requested to submit the papers in LNCS format available on the ICPR 2026 website. Each paper must have a minimum length of 6 pages and should not exceed 15 pages, including references. If the paper exceeds 15 pages, the authors must pay 150€ for each additional page.',
     authorsWebsiteUrl: 'https://icpr2026.org/authors.html',
-    pageLimits:
-      'Final ICPR 2026 workshop page limits may be announced later. For the current planning version, authors should prepare concise full papers in the official workshop format and align the manuscript with the expected LNCS-style proceedings workflow.',
     submissionSystemUrl: 'https://cmt3.research.microsoft.com/',
     cmtAcknowledgement:
       'The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.',
-    reviewingProcess:
-      'Submissions will undergo double-blind review with the following timeline: Paper submission deadline: February 21, 2026 AoE (UTC-12). Review period: April 2, 2026. Author notifications: April 31, 2026. Camera-ready deadline: June 4, 2026. Each submission will receive 3 reviews evaluating technical novelty, methodological rigor, and reproducibility. Conflict-of-interest protocols will prevent organizers from reviewing affiliated works.',
-    diversity:
-      'We carefully selected speakers to represent a diverse range of technical perspectives on video generation from both academia and industry. In addition, we aim to ensure fair representation across key demographics within the community, including gender, race, geographic location, institutional affiliation, and career stage. Our organizing team also reflects diversity in gender, race, and seniority.',
     ethics:
       'We confirm that all participants will be welcome without any restriction due to political, racial, or religious differences. We also confirm that the workshop organizers will be bound by the IAPR Statement of Ethics and that the IAPR Ethical Requirements for Authors will be prominently displayed on the conference website.',
   },
   committee: {
-    eyebrow: 'Organizing Team',
-    title: 'COMMITTEE',
+    title: 'Committee',
     members: [
       {
         name: 'Siyu Zhu',
@@ -98,8 +102,16 @@ export const workshopContent = {
         affiliation: 'Fudan University',
         email: 'hli24@m.fudan.edu.cn',
         bioParagraphs: [
-          'Hui Li, PhD Candidate, Fudan University. She is a PhD student at Fudan University working on human-centric video generation.',
-          'She previously published papers about human-centric video generation at CVPR and ICLR, and related GitHub projects have collectively garnered 13.5k stars.',
+          'Hui Li, PhD Candidate, Fudan University. She is a PhD student at Fudan University working on human-centric video generation and has published papers on this topic at CVPR and ICLR, with related GitHub projects collectively garnering 13.5k stars.',
+        ],
+      },
+      {
+        name: 'Baoyou Chen',
+        role: 'General Chair',
+        affiliation: 'Fudan University',
+        email: 'bychen25@m.fudan.edu.cn',
+        bioParagraphs: [
+          'Baoyou Chen, PhD Candidate, Fudan University. He is a PhD student at Fudan University working on video face restortion and human-centric video generation, and he has published several papers on these topics at ICCV and SIGGRAPH Asia while related GitHub projects have achieved over 1k stars.',
         ],
       },
       {
@@ -108,18 +120,16 @@ export const workshopContent = {
         affiliation: 'Fudan University',
         email: 'mingwang.xu.cq@gmail.com',
         bioParagraphs: [
-          'Mingwang Xu, PhD Candidate, Fudan University. He specializes in human-centric video generation and has published and open-sourced the audio-driven facial video generation model Hallo.',
-          'He also published a paper on human-centric video generation at CVPR and played a key role in organizing the international visual image challenge TDSC-ABUS 2023.',
+          'Mingwang Xu, PhD Candidate, Fudan University. He specializes in human-centric video generation, has published and open-sourced the audio-driven facial video generation model Hallo, has published workshop-related research at CVPR, and played a key role in organizing the international visual image challenge TDSC-ABUS 2023.',
         ],
       },
       {
         name: 'Kaihui Cheng',
         role: 'General Chair',
         affiliation: 'Fudan University',
-        email: 'Email to be confirmed',
+        email: 'khcheng24@m.fudan.edu.cn',
         bioParagraphs: [
-          'Kaihui Cheng is a PhD candidate at Fudan University, specializing in generative models.',
-          'He has published research on generative modeling at AAAI and has served as a reviewer for IEEE Transactions on Visualization and Computer Graphics. His related GitHub projects have collectively accumulated over 700 stars.',
+          'Kaihui Cheng, PhD Candidate, Fudan University. He specializes in generative models, has published research on generative modeling at AAAI, has served as a reviewer for IEEE Transactions on Visualization and Computer Graphics, and his related GitHub projects have collectively accumulated over 700 stars.',
         ],
       },
       {
@@ -128,8 +138,7 @@ export const workshopContent = {
         affiliation: 'Fudan University',
         email: 'cuijh25@m.fudan.edu.cn',
         bioParagraphs: [
-          'Jiahao Cui, PhD Candidate, Fudan University. He specializes in human-centric video generation and has published multiple papers on this topic at CVPR, ICLR, and SIGGRAPH Asia.',
-          'The corresponding open-source code for his work on GitHub has been well received by the community, amassing over 5,000 stars.',
+          'Jiahao Cui, PhD Candidate, Fudan University. He specializes in human-centric video generation, has published multiple papers on this topic at CVPR, ICLR, and SIGGRAPH Asia, and the corresponding open-source code for his work on GitHub has been well received by the community, amassing over 5,000 stars.',
         ],
       },
       {
@@ -138,7 +147,7 @@ export const workshopContent = {
         affiliation: 'Fudan University',
         email: 'qhtang25@m.fudan.edu.cn',
         bioParagraphs: [
-          'Quanhui Tang, PhD Candidate, Fudan University. A PhD student at Fudan University, specializing in human-centric video generation.',
+          'Quanhui Tang, PhD Candidate, Fudan University. He is a PhD student at Fudan University specializing in human-centric video generation and supports the workshop on research coordination and author communication.',
         ],
       },
       {
@@ -174,20 +183,17 @@ export const workshopContent = {
     ],
   },
   contact: {
-    label: 'Workshop Contact',
-    email: 'contact@workshop-placeholder.org',
-    note: 'For organizational questions, committee coordination, and author-support updates, please contact the workshop team.',
+    title: 'Contact',
+    name: 'Quanhui Tang',
+    email: 'qhtang25@m.fudan.edu.cn',
+    note: 'For organizational questions and workshop communication, please contact the workshop team representative below.',
   },
   program: {
-    eyebrow: 'Schedule Snapshot',
-    title: 'WORKSHOP SCHEDULE',
+    title: 'Workshop Schedule',
     date: 'Friday, 21 August 2026',
-    slot: 'Full-Day Workshop | 08:30 – 17:30',
+    slot: 'Full-Day Workshop | 08:30-17:30',
     highlight: 'HVG',
-    note: 'HVG is currently listed in the Friday morning workshop block of the ICPR 2026 workshop schedule.',
   },
-  footer: {
-    blurb:
-      'HVG 2026 is presented as a light academic editorial microsite for the ICPR 2026 workshop proposal, author information, and committee overview.',
-  },
+  footer: {},
 }
+

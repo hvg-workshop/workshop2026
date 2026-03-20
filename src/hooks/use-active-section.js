@@ -35,6 +35,11 @@ export function useActiveSection(sectionIds) {
     }
 
     const resolveNextSection = () => {
+      // 页面靠近顶部时优先高亮 OVERVIEW，避免短页面或测试环境误判到后面的区块。
+      if (window.scrollY <= 24) {
+        return sections[0]?.id ?? ''
+      }
+
       if (isNearPageBottom()) {
         return sections.at(-1)?.id ?? ''
       }
@@ -86,7 +91,7 @@ export function useActiveSection(sectionIds) {
     }
 
     const resolveByScrollPosition = () => {
-      // 点击 tab 后先锁定目标，等页面真正滚动到位再切回实时滚动判定。
+      // 点击 tab 后先锁定目标，等页面真正滚动到位后再恢复实时滚动判定。
       if (pendingHashTargetRef.current) {
         const targetSection = document.getElementById(pendingHashTargetRef.current)
 

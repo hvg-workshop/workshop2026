@@ -13,7 +13,7 @@ export function StickyTabs({ tabs }) {
     const nextHash = `#${sectionId}`
 
     if (window.location.hash !== nextHash) {
-      // 显式写入 hash，确保点击 tab、URL 与 hook 的 hash 监听走同一条链路。
+      // 显式写入 hash，确保点击 tab、URL 和激活态始终走同一条同步链路。
       window.history.pushState(window.history.state, '', nextHash)
       window.dispatchEvent(new HashChangeEvent('hashchange'))
       return
@@ -23,7 +23,7 @@ export function StickyTabs({ tabs }) {
   }
 
   return (
-    <nav className="sticky top-0 z-30 border-b border-[var(--color-line)] bg-[rgba(250,250,250,0.94)] backdrop-blur-xl">
+    <nav className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-[rgba(250,250,250,0.96)] backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl gap-3 overflow-x-auto px-4 py-4 sm:px-6 lg:justify-center lg:px-8">
         {tabs.map((tab) => {
           const isActive = activeSection === tab.id
