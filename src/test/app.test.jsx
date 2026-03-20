@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { vi } from 'vitest'
 
 import App from '../App'
 
@@ -15,26 +16,26 @@ describe('HVG single-page site', () => {
 
     expect(tabLabels).toEqual([
       'OVERVIEW',
-      'Topics',
-      'Important Dates',
-      'Instructions for Authors',
-      'Committee',
-      'Workshop Schedule',
-      'Contact',
+      'TOPICS',
+      'IMPORTANT DATES',
+      'INSTRUCTIONS FOR AUTHORS',
+      'COMMITTEE',
+      'WORKSHOP SCHEDULE',
+      'CONTACT',
     ])
     expect(screen.getByRole('link', { name: 'OVERVIEW' })).toHaveAttribute('href', '#overview')
-    expect(screen.getByRole('link', { name: 'Topics' })).toHaveAttribute('href', '#topics')
-    expect(screen.getByRole('link', { name: 'Important Dates' })).toHaveAttribute('href', '#important-dates')
-    expect(screen.getByRole('link', { name: 'Instructions for Authors' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'TOPICS' })).toHaveAttribute('href', '#topics')
+    expect(screen.getByRole('link', { name: 'IMPORTANT DATES' })).toHaveAttribute('href', '#important-dates')
+    expect(screen.getByRole('link', { name: 'INSTRUCTIONS FOR AUTHORS' })).toHaveAttribute(
       'href',
       '#instructions-for-authors',
     )
-    expect(screen.getByRole('link', { name: 'Committee' })).toHaveAttribute('href', '#committee')
-    expect(screen.getByRole('link', { name: 'Workshop Schedule' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'COMMITTEE' })).toHaveAttribute('href', '#committee')
+    expect(screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })).toHaveAttribute(
       'href',
       '#workshop-schedule',
     )
-    expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '#contact')
+    expect(screen.getByRole('link', { name: 'CONTACT' })).toHaveAttribute('href', '#contact')
     expect(nav?.compareDocumentPosition(hero)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
     expect(heroContent.className).toContain('items-center')
     expect(heroContent.className).toContain('text-center')
@@ -46,7 +47,7 @@ describe('HVG single-page site', () => {
     render(<App />)
 
     const overviewTab = screen.getByRole('link', { name: 'OVERVIEW' })
-    const committeeTab = screen.getByRole('link', { name: 'Committee' })
+    const committeeTab = screen.getByRole('link', { name: 'COMMITTEE' })
 
     expect(overviewTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
     expect(committeeTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
@@ -64,7 +65,7 @@ describe('HVG single-page site', () => {
     window.history.pushState({}, '', '#overview')
     render(<App />)
 
-    const contactTab = screen.getByRole('link', { name: 'Contact' })
+    const contactTab = screen.getByRole('link', { name: 'CONTACT' })
 
     fireEvent.click(contactTab)
 
@@ -148,7 +149,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3080 })
     Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 3680 })
 
-    const datesTab = screen.getByRole('link', { name: 'Important Dates' })
+    const datesTab = screen.getByRole('link', { name: 'IMPORTANT DATES' })
 
     Object.defineProperty(window, 'scrollY', {
       value: 1240,
@@ -206,10 +207,453 @@ describe('HVG single-page site', () => {
     fireEvent.scroll(window)
 
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: 'Contact' }).className).toContain(
+      expect(screen.getByRole('link', { name: 'CONTACT' }).className).toContain(
         'bg-[rgba(37,99,235,0.12)]',
       )
       expect(window.location.hash).toBe('#contact')
+    })
+  })
+
+  it('re-dispatches hashchange when clicking CONTACT while the hash is already #contact', () => {
+    window.history.pushState({}, '', '#contact')
+    render(<App />)
+
+    const dispatchSpy = vi.spyOn(window, 'dispatchEvent')
+    const contactTab = screen.getByRole('link', { name: 'CONTACT' })
+
+    fireEvent.click(contactTab)
+
+    expect(dispatchSpy).toHaveBeenCalledWith(expect.any(HashChangeEvent))
+    dispatchSpy.mockRestore()
+  })
+
+  it('keeps WORKSHOP SCHEDULE active when near the bottom but Contact has not been reached yet', async () => {
+    window.history.pushState({}, '', '#overview')
+    Object.defineProperty(window, 'scrollY', {
+      value: 0,
+      writable: true,
+      configurable: true,
+    })
+    render(<App />)
+
+    const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
+    const authorsSection = document.getElementById('instructions-for-authors')
+    const committeeSection = document.getElementById('committee')
+    const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
+
+    Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 4200,
+    })
+
+    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
+
+    fireEvent.click(scheduleTab)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 3330,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#workshop-schedule')
+      expect(scheduleTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(screen.getByRole('link', { name: 'CONTACT' }).className).not.toContain(
+        'bg-[rgba(37,99,235,0.12)]',
+      )
+    })
+  })
+
+  it('keeps CONTACT active after a tab jump even if WORKSHOP SCHEDULE is still intersecting', async () => {
+    const originalIntersectionObserver = globalThis.IntersectionObserver
+    const observerInstances = []
+
+    class ControlledIntersectionObserver {
+      constructor(callback) {
+        this.callback = callback
+        observerInstances.push(this)
+      }
+
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+
+      trigger(entries) {
+        this.callback(entries)
+      }
+    }
+
+    globalThis.IntersectionObserver = ControlledIntersectionObserver
+    window.IntersectionObserver = ControlledIntersectionObserver
+
+    try {
+      window.history.pushState({}, '', '#overview')
+      Object.defineProperty(window, 'scrollY', {
+        value: 0,
+        writable: true,
+        configurable: true,
+      })
+      render(<App />)
+
+      const overviewSection = document.getElementById('overview')
+      const topicsSection = document.getElementById('topics')
+      const datesSection = document.getElementById('important-dates')
+      const authorsSection = document.getElementById('instructions-for-authors')
+      const committeeSection = document.getElementById('committee')
+      const scheduleSection = document.getElementById('workshop-schedule')
+      const contactSection = document.getElementById('contact')
+
+      Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+      Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+      Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+      Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+      Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+      Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+      Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        writable: true,
+        value: 900,
+      })
+      Object.defineProperty(document.documentElement, 'scrollHeight', {
+        configurable: true,
+        value: 6200,
+      })
+
+      const contactTab = screen.getByRole('link', { name: 'CONTACT' })
+
+      fireEvent.click(contactTab)
+
+      Object.defineProperty(window, 'scrollY', {
+        configurable: true,
+        writable: true,
+        value: 3988,
+      })
+
+      observerInstances.at(-1)?.trigger([
+        { target: scheduleSection, isIntersecting: true },
+        { target: contactSection, isIntersecting: false },
+      ])
+
+      await waitFor(() => {
+        expect(window.location.hash).toBe('#contact')
+        expect(contactTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+        expect(screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' }).className).not.toContain(
+          'bg-[rgba(37,99,235,0.12)]',
+        )
+      })
+    } finally {
+      globalThis.IntersectionObserver = originalIntersectionObserver
+      window.IntersectionObserver = originalIntersectionObserver
+    }
+  })
+
+  it('does not fall back to WORKSHOP SCHEDULE when CONTACT becomes near-bottom before reaching its activation line', async () => {
+    window.history.pushState({}, '', '#overview')
+    Object.defineProperty(window, 'scrollY', {
+      value: 0,
+      writable: true,
+      configurable: true,
+    })
+    render(<App />)
+
+    const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
+    const authorsSection = document.getElementById('instructions-for-authors')
+    const committeeSection = document.getElementById('committee')
+    const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
+
+    Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 4800,
+    })
+
+    const contactTab = screen.getByRole('link', { name: 'CONTACT' })
+
+    fireEvent.click(contactTab)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 3892,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#contact')
+      expect(contactTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' }).className).not.toContain(
+        'bg-[rgba(37,99,235,0.12)]',
+      )
+    })
+  })
+
+  it('syncs hash and active tab upward from CONTACT to WORKSHOP SCHEDULE', async () => {
+    window.history.pushState({}, '', '#overview')
+    Object.defineProperty(window, 'scrollY', {
+      value: 0,
+      writable: true,
+      configurable: true,
+    })
+    render(<App />)
+
+    const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
+    const authorsSection = document.getElementById('instructions-for-authors')
+    const committeeSection = document.getElementById('committee')
+    const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
+
+    Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 4980,
+    })
+
+    const contactTab = screen.getByRole('link', { name: 'CONTACT' })
+    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
+
+    fireEvent.click(contactTab)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 4075,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#contact')
+      expect(contactTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+    })
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 3330,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#workshop-schedule')
+      expect(scheduleTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(contactTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
+    })
+  })
+
+  it('syncs hash and active tab upward from WORKSHOP SCHEDULE to COMMITTEE', async () => {
+    window.history.pushState({}, '', '#overview')
+    Object.defineProperty(window, 'scrollY', {
+      value: 0,
+      writable: true,
+      configurable: true,
+    })
+    render(<App />)
+
+    const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
+    const authorsSection = document.getElementById('instructions-for-authors')
+    const committeeSection = document.getElementById('committee')
+    const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
+
+    Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 4980,
+    })
+
+    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
+    const committeeTab = screen.getByRole('link', { name: 'COMMITTEE' })
+
+    fireEvent.click(scheduleTab)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 3330,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#workshop-schedule')
+      expect(scheduleTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+    })
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 2620,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#committee')
+      expect(committeeTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(scheduleTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
+    })
+  })
+
+  it('cancels a pending CONTACT jump when the user scrolls upward away from it', async () => {
+    window.history.pushState({}, '', '#committee')
+    Object.defineProperty(window, 'scrollY', {
+      value: 2740,
+      writable: true,
+      configurable: true,
+    })
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 6200,
+    })
+    render(<App />)
+
+    const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
+    const authorsSection = document.getElementById('instructions-for-authors')
+    const committeeSection = document.getElementById('committee')
+    const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
+
+    Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+
+    const contactTab = screen.getByRole('link', { name: 'CONTACT' })
+    const committeeTab = screen.getByRole('link', { name: 'COMMITTEE' })
+
+    fireEvent.click(contactTab)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 2600,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#committee')
+      expect(committeeTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(contactTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
+    })
+  })
+
+  it('cancels a pending WORKSHOP SCHEDULE jump when the user scrolls upward away from it', async () => {
+    window.history.pushState({}, '', '#important-dates')
+    Object.defineProperty(window, 'scrollY', {
+      value: 1280,
+      writable: true,
+      configurable: true,
+    })
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    })
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 6200,
+    })
+    render(<App />)
+
+    const overviewSection = document.getElementById('overview')
+    const topicsSection = document.getElementById('topics')
+    const datesSection = document.getElementById('important-dates')
+    const authorsSection = document.getElementById('instructions-for-authors')
+    const committeeSection = document.getElementById('committee')
+    const scheduleSection = document.getElementById('workshop-schedule')
+    const contactSection = document.getElementById('contact')
+
+    Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
+    Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+
+    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
+    const topicsTab = screen.getByRole('link', { name: 'TOPICS' })
+
+    fireEvent.click(scheduleTab)
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      writable: true,
+      value: 1240,
+    })
+    fireEvent.scroll(window)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#topics')
+      expect(topicsTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(scheduleTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
     })
   })
 
@@ -253,7 +697,7 @@ describe('HVG single-page site', () => {
   it('renders overview pillars and separates Topics into its own section', () => {
     render(<App />)
 
-    const overviewSection = screen.getByRole('heading', { name: 'OVERVIEW' }).closest('section')
+    const overviewSection = screen.getByRole('heading', { name: 'Overview' }).closest('section')
     const topicsSection = document.getElementById('topics')
     const pillarsCard = screen.getByTestId('overview-pillars-card')
     const pillarItems = screen.getAllByTestId('overview-pillar-item')
@@ -368,5 +812,30 @@ describe('HVG single-page site', () => {
     expect(backToTopButton.className).toContain('opacity-100')
     fireEvent.click(backToTopButton)
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
+  })
+
+  it('syncs hash and active tab back to OVERVIEW when clicking back-to-top from WORKSHOP SCHEDULE', async () => {
+    window.history.pushState({}, '', '#workshop-schedule')
+    Object.defineProperty(window, 'scrollY', {
+      value: 640,
+      writable: true,
+      configurable: true,
+    })
+    render(<App />)
+
+    const backToTopButton = screen.getByRole('button', { name: 'Scroll to top' })
+    const overviewTab = screen.getByRole('link', { name: 'OVERVIEW' })
+    const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
+
+    expect(backToTopButton.className).toContain('opacity-100')
+    expect(scheduleTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+
+    fireEvent.click(backToTopButton)
+
+    await waitFor(() => {
+      expect(window.location.hash).toBe('#overview')
+      expect(overviewTab.className).toContain('bg-[rgba(37,99,235,0.12)]')
+      expect(scheduleTab.className).not.toContain('bg-[rgba(37,99,235,0.12)]')
+    })
   })
 })
