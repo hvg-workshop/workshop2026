@@ -22,6 +22,8 @@ describe('HVG single-page site', () => {
       'Workshop Schedule',
       'Contact',
     ])
+    expect(within(nav).getByText('HVG 2026')).toBeInTheDocument()
+    expect(within(nav).queryByRole('link', { name: 'HVG 2026' })).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'OVERVIEW' })).toHaveAttribute('href', '#overview')
     expect(screen.getByRole('link', { name: 'Topics' })).toHaveAttribute('href', '#topics')
     expect(screen.getByRole('link', { name: 'Important Dates' })).toHaveAttribute('href', '#important-dates')
