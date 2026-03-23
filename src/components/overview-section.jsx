@@ -2,19 +2,24 @@ import { SectionShell } from './section-shell'
 
 export function OverviewSection({ overview }) {
   return (
-    <SectionShell title={overview.title}>
-      <div className="space-y-8">
-        <div className="rounded-[2rem] border border-[var(--color-line)] bg-white p-6 shadow-[0_18px_55px_rgba(15,23,42,0.05)]">
+    <SectionShell title={overview.title} align="left" containerClassName="max-w-6xl">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.95fr)]">
+        <div className="border-l-2 border-[rgba(37,99,235,0.18)] pl-5 sm:pl-6">
           <div className="space-y-5 text-base leading-8 text-[var(--color-muted)]">
-            {overview.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+            {overview.paragraphs.map((paragraph, index) => (
+              <p
+                key={paragraph}
+                className={index === 0 ? 'text-lg font-medium text-[var(--color-text)] sm:text-[1.15rem]' : ''}
+              >
+                {paragraph}
+              </p>
             ))}
           </div>
         </div>
 
         <article
           data-testid="overview-pillars-card"
-          className="rounded-[2rem] border border-[var(--color-line)] bg-[linear-gradient(180deg,rgba(241,245,249,0.78),rgba(255,255,255,0.96))] p-6 shadow-[0_18px_55px_rgba(15,23,42,0.05)] sm:p-8"
+          className="rounded-[1.6rem] border border-[rgba(148,163,184,0.22)] bg-[rgba(255,255,255,0.64)] p-6 shadow-[0_16px_42px_rgba(15,23,42,0.04)] backdrop-blur-[2px] sm:p-8"
         >
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--color-text)] sm:text-[1.7rem]">

@@ -733,23 +733,30 @@ describe('HVG single-page site', () => {
 
     const overviewSection = screen.getByRole('heading', { name: 'Overview' }).closest('section')
     const topicsSection = document.getElementById('topics')
+    const overviewLead = within(overviewSection).getByText(
+      /The Workshop on Human-Centric Video Generation \(HVG\) will focus on advancing methodologies/i,
+    )
     const pillarsCard = screen.getByTestId('overview-pillars-card')
     const pillarItems = screen.getAllByTestId('overview-pillar-item')
     const pillarsTitle = screen.getByRole('heading', { name: 'Core Research Pillars' })
     const firstPillarTitle = screen.getByRole('heading', { name: 'Conditional Motion Synthesis' })
     const topicsList = within(topicsSection).getByRole('list')
+    const topicsDirectory = screen.getByTestId('topics-directory')
 
     expect(pillarsCard).toBeInTheDocument()
     expect(pillarItems).toHaveLength(3)
     expect(pillarsTitle).toBeInTheDocument()
     expect(pillarsTitle.className).toContain('text-2xl')
     expect(firstPillarTitle.className).toContain('text-xl')
+    expect(overviewLead.className).toContain('text-lg')
     expect(screen.queryByText('01')).not.toBeInTheDocument()
     expect(screen.getAllByTestId('overview-pillar-dot')).toHaveLength(3)
     expect(screen.getByRole('heading', { name: 'Topics' })).toBeInTheDocument()
     expect(within(topicsSection).getByText(/Text-Driven Synthesis/i)).toBeInTheDocument()
     expect(within(topicsSection).getAllByTestId('topic-dot')).toHaveLength(8)
     expect(topicsList.className).toContain('text-base')
+    expect(topicsDirectory.className).toContain('lg:grid-cols-2')
+    expect(topicsDirectory.className).toContain('border-y')
     expect(within(overviewSection).queryByText(/Text-Driven Synthesis/i)).not.toBeInTheDocument()
   })
 
@@ -757,14 +764,19 @@ describe('HVG single-page site', () => {
     render(<App />)
 
     const speakersSection = screen.getByRole('heading', { name: 'Speakers' }).closest('section')
-    const speakersCard = within(speakersSection).getByText('To Be Determined').closest('article')
+    const speakersAnnouncement = screen.getByTestId('speakers-announcement')
+    const importantDatesRail = screen.getByTestId('important-dates-rail')
+    const scheduleBand = screen.getByTestId('schedule-band')
+    const contactStrip = screen.getByTestId('contact-strip')
     const importantDatesSection = screen.getByRole('heading', { name: 'Important Dates' }).closest('section')
 
     expect(screen.getByRole('heading', { name: 'Speakers' })).toBeInTheDocument()
     expect(within(speakersSection).getByText('To Be Determined')).toBeInTheDocument()
-    expect(speakersCard.className).toContain('bg-white')
+    expect(speakersAnnouncement.className).toContain('border-y')
+    expect(speakersAnnouncement.className).not.toContain('rounded-[2rem]')
 
     expect(screen.getByRole('heading', { name: 'Important Dates' })).toBeInTheDocument()
+    expect(importantDatesRail.className).toContain('border-l')
     expect(within(importantDatesSection).getByTestId('important-date-row-0').textContent).toBe(
       'Submission Deadline:May 01, 2026',
     )
@@ -815,6 +827,8 @@ describe('HVG single-page site', () => {
     expect(committeeSection.querySelectorAll('article')).toHaveLength(6)
 
     expect(screen.getByRole('heading', { name: 'Workshop Schedule' })).toBeInTheDocument()
+    expect(scheduleBand.className).toContain('border-y')
+    expect(scheduleBand.className).not.toContain('bg-white')
     expect(screen.getByText('Friday, 21 August 2026')).toBeInTheDocument()
     expect(screen.getByText('Full-Day Workshop | 08:30-17:30')).toBeInTheDocument()
     expect(screen.getAllByText('HVG').length).toBeGreaterThan(0)
@@ -822,6 +836,8 @@ describe('HVG single-page site', () => {
     const contactSection = document.getElementById('contact')
 
     expect(within(contactSection).getByRole('heading', { name: 'Contact' })).toBeInTheDocument()
+    expect(contactStrip.className).toContain('border-y')
+    expect(within(contactSection).queryByRole('article')).not.toBeInTheDocument()
     expect(within(contactSection).getByText('Quanhui Tang')).toBeInTheDocument()
     expect(within(contactSection).getByRole('link', { name: 'qhtang25@m.fudan.edu.cn' })).toHaveAttribute(
       'href',

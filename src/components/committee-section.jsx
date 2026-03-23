@@ -27,7 +27,7 @@ function FeaturedMemberCard({ member }) {
         {hasValidEmail(member.email) ? (
           <a
             href={`mailto:${member.email}`}
-            // 独立委员卡片继续使用右上角邮箱胶囊，和页面其他独立人物卡片保持一致。
+            // 独立委员卡片继续使用右上角邮箱胶囊，维持人物目录区的识别度。
             className="absolute right-6 top-6 rounded-full border border-[var(--color-line)] bg-[var(--color-soft)] px-4 py-2 text-sm font-medium text-[var(--color-text)] transition hover:border-[rgba(37,99,235,0.24)] hover:text-[var(--color-primary)]"
           >
             {member.email}
@@ -81,6 +81,8 @@ export function CommitteeSection({ committee }) {
     <SectionShell
       id="committee"
       title={committee.title}
+      align="left"
+      containerClassName="max-w-6xl"
     >
       <div className="space-y-6">
         <div data-testid="committee-grid" className="grid gap-5 md:grid-cols-2">

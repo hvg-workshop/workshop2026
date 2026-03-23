@@ -1,8 +1,13 @@
 import { SectionShell } from './section-shell'
 
-function InstructionCard({ title, children }) {
+function InstructionCard({ title, children, tone = 'default', className = '' }) {
+  const toneClassName =
+    tone === 'feature'
+      ? 'bg-[rgba(255,255,255,0.96)] shadow-[0_18px_50px_rgba(15,23,42,0.05)]'
+      : 'bg-[rgba(241,245,249,0.62)]'
+
   return (
-    <article className="rounded-[1.8rem] border border-[var(--color-line)] bg-white p-6">
+    <article className={`rounded-[1.8rem] border border-[var(--color-line)] p-6 ${toneClassName} ${className}`}>
       <h3 className="text-lg font-semibold text-[var(--color-text)]">{title}</h3>
       <div className="mt-4 space-y-4 text-sm leading-7 text-[var(--color-muted)]">{children}</div>
     </article>
@@ -25,48 +30,47 @@ export function AuthorsSection({ instructions }) {
     <SectionShell
       id="instructions-for-authors"
       title={instructions.title}
+      align="left"
+      containerClassName="max-w-6xl"
     >
-      <div className="space-y-6">
-        <div className="grid gap-4">
-          <InstructionCard title="Submission Guidelines">
-            <p>
-              {guidelinesBeforeLink}
-              <a
-                href={instructions.authorsWebsiteUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={emphasisLinkClass}
-                style={emphasisLinkStyle}
-              >
-                ICPR 2026 website
-              </a>
-              {guidelinesAfterLink}
-            </p>
-          </InstructionCard>
-          <InstructionCard title="Submission System">
-            <p>
-              Papers must be submitted through{' '}
-              <a
-                href={instructions.submissionSystemUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={emphasisLinkClass}
-                style={emphasisLinkStyle}
-              >
-                the Microsoft CMT submission system
-              </a>
-              , which is used to manage the peer-review process. The Microsoft CMT service is
-              provided free of charge by Microsoft, including infrastructure and technical
-              support.
-            </p>
-          </InstructionCard>
-          <InstructionCard title="Acknowledgement">
-            <p>{instructions.cmtAcknowledgement}</p>
-          </InstructionCard>
-          <InstructionCard title="Ethics">
-            <p>{instructions.ethics}</p>
-          </InstructionCard>
-        </div>
+      <div className="grid gap-4 lg:grid-cols-12">
+        <InstructionCard title="Submission Guidelines" tone="feature" className="lg:col-span-7">
+          <p>
+            {guidelinesBeforeLink}
+            <a
+              href={instructions.authorsWebsiteUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={emphasisLinkClass}
+              style={emphasisLinkStyle}
+            >
+              ICPR 2026 website
+            </a>
+            {guidelinesAfterLink}
+          </p>
+        </InstructionCard>
+        <InstructionCard title="Submission System" tone="feature" className="lg:col-span-5">
+          <p>
+            Papers must be submitted through{' '}
+            <a
+              href={instructions.submissionSystemUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={emphasisLinkClass}
+              style={emphasisLinkStyle}
+            >
+              the Microsoft CMT submission system
+            </a>
+            , which is used to manage the peer-review process. The Microsoft CMT service is
+            provided free of charge by Microsoft, including infrastructure and technical support.
+          </p>
+        </InstructionCard>
+        <InstructionCard title="Acknowledgement" className="lg:col-span-6">
+          <p>{instructions.cmtAcknowledgement}</p>
+        </InstructionCard>
+        <InstructionCard title="Ethics" className="lg:col-span-6">
+          <p>{instructions.ethics}</p>
+        </InstructionCard>
       </div>
     </SectionShell>
   )
