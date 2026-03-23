@@ -2,6 +2,7 @@ export const workshopContent = {
   tabs: [
     { id: 'overview', label: 'OVERVIEW' },
     { id: 'topics', label: 'Topics' },
+    { id: 'speakers', label: 'Speakers' },
     { id: 'important-dates', label: 'Important Dates' },
     { id: 'instructions-for-authors', label: 'Instructions for Authors' },
     { id: 'committee', label: 'Committee' },
@@ -52,6 +53,10 @@ export const workshopContent = {
       'Dataset Curation: Constructing cross-modal datasets with annotated human motions and multi-view sequences.',
       '3D-Consistent Avatars: Bridging 2D generation with 3D-aware representations for viewpoint-invariant synthesis.',
     ],
+  },
+  speakers: {
+    title: 'Speakers',
+    statusText: 'To Be Determined',
   },
   importantDates: {
     title: 'Important Dates',

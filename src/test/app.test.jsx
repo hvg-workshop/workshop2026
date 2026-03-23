@@ -17,6 +17,7 @@ describe('HVG single-page site', () => {
     expect(tabLabels).toEqual([
       'OVERVIEW',
       'TOPICS',
+      'SPEAKERS',
       'IMPORTANT DATES',
       'INSTRUCTIONS FOR AUTHORS',
       'COMMITTEE',
@@ -25,6 +26,7 @@ describe('HVG single-page site', () => {
     ])
     expect(screen.getByRole('link', { name: 'OVERVIEW' })).toHaveAttribute('href', '#overview')
     expect(screen.getByRole('link', { name: 'TOPICS' })).toHaveAttribute('href', '#topics')
+    expect(screen.getByRole('link', { name: 'SPEAKERS' })).toHaveAttribute('href', '#speakers')
     expect(screen.getByRole('link', { name: 'IMPORTANT DATES' })).toHaveAttribute('href', '#important-dates')
     expect(screen.getByRole('link', { name: 'INSTRUCTIONS FOR AUTHORS' })).toHaveAttribute(
       'href',
@@ -83,6 +85,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -91,11 +94,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 680 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1280 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 1880 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2480 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3080 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 3680 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1280 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1880 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2480 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3080 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3680 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4280 })
 
     Object.defineProperty(window, 'scrollY', {
       value: 2500,
@@ -135,6 +139,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -143,16 +148,17 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 680 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1280 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 1880 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2480 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3080 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 3680 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1280 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1880 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2480 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3080 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3680 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4280 })
 
     const datesTab = screen.getByRole('link', { name: 'IMPORTANT DATES' })
 
     Object.defineProperty(window, 'scrollY', {
-      value: 1240,
+      value: 1840,
       writable: true,
       configurable: true,
     })
@@ -175,6 +181,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -183,11 +190,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
 
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
@@ -196,12 +204,12 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 4980,
+      value: 5640,
     })
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 4075,
+      value: 4735,
     })
 
     fireEvent.scroll(window)
@@ -238,6 +246,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -246,11 +255,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
 
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
@@ -259,7 +269,7 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 4200,
+      value: 4860,
     })
 
     const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
@@ -269,7 +279,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 3330,
+      value: 3990,
     })
     fireEvent.scroll(window)
 
@@ -315,6 +325,7 @@ describe('HVG single-page site', () => {
 
       const overviewSection = document.getElementById('overview')
       const topicsSection = document.getElementById('topics')
+      const speakersSection = document.getElementById('speakers')
       const datesSection = document.getElementById('important-dates')
       const authorsSection = document.getElementById('instructions-for-authors')
       const committeeSection = document.getElementById('committee')
@@ -323,11 +334,12 @@ describe('HVG single-page site', () => {
 
       Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
       Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-      Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-      Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-      Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-      Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-      Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+      Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+      Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+      Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+      Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+      Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+      Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
       Object.defineProperty(window, 'innerHeight', {
         configurable: true,
         writable: true,
@@ -335,7 +347,7 @@ describe('HVG single-page site', () => {
       })
       Object.defineProperty(document.documentElement, 'scrollHeight', {
         configurable: true,
-        value: 6200,
+        value: 6860,
       })
 
       const contactTab = screen.getByRole('link', { name: 'CONTACT' })
@@ -345,7 +357,7 @@ describe('HVG single-page site', () => {
       Object.defineProperty(window, 'scrollY', {
         configurable: true,
         writable: true,
-        value: 3988,
+        value: 4648,
       })
 
       observerInstances.at(-1)?.trigger([
@@ -377,6 +389,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -385,11 +398,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
 
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
@@ -398,7 +412,7 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 4800,
+      value: 5460,
     })
 
     const contactTab = screen.getByRole('link', { name: 'CONTACT' })
@@ -408,7 +422,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 3892,
+      value: 4552,
     })
     fireEvent.scroll(window)
 
@@ -432,6 +446,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -440,11 +455,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
       writable: true,
@@ -452,7 +468,7 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 4980,
+      value: 5640,
     })
 
     const contactTab = screen.getByRole('link', { name: 'CONTACT' })
@@ -463,7 +479,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 4075,
+      value: 4735,
     })
     fireEvent.scroll(window)
 
@@ -475,7 +491,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 3330,
+      value: 3990,
     })
     fireEvent.scroll(window)
 
@@ -497,6 +513,7 @@ describe('HVG single-page site', () => {
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -505,11 +522,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
     Object.defineProperty(window, 'innerHeight', {
       configurable: true,
       writable: true,
@@ -517,7 +535,7 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 4980,
+      value: 5640,
     })
 
     const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
@@ -528,7 +546,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 3330,
+      value: 3990,
     })
     fireEvent.scroll(window)
 
@@ -540,7 +558,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 2620,
+      value: 3280,
     })
     fireEvent.scroll(window)
 
@@ -554,7 +572,7 @@ describe('HVG single-page site', () => {
   it('cancels a pending CONTACT jump when the user scrolls upward away from it', async () => {
     window.history.pushState({}, '', '#committee')
     Object.defineProperty(window, 'scrollY', {
-      value: 2740,
+      value: 3440,
       writable: true,
       configurable: true,
     })
@@ -565,12 +583,13 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 6200,
+      value: 6860,
     })
     render(<App />)
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -579,11 +598,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
 
     const contactTab = screen.getByRole('link', { name: 'CONTACT' })
     const committeeTab = screen.getByRole('link', { name: 'COMMITTEE' })
@@ -593,7 +613,7 @@ describe('HVG single-page site', () => {
     Object.defineProperty(window, 'scrollY', {
       configurable: true,
       writable: true,
-      value: 2600,
+      value: 3280,
     })
     fireEvent.scroll(window)
 
@@ -607,7 +627,7 @@ describe('HVG single-page site', () => {
   it('cancels a pending WORKSHOP SCHEDULE jump when the user scrolls upward away from it', async () => {
     window.history.pushState({}, '', '#important-dates')
     Object.defineProperty(window, 'scrollY', {
-      value: 1280,
+      value: 1940,
       writable: true,
       configurable: true,
     })
@@ -618,12 +638,13 @@ describe('HVG single-page site', () => {
     })
     Object.defineProperty(document.documentElement, 'scrollHeight', {
       configurable: true,
-      value: 6200,
+      value: 6860,
     })
     render(<App />)
 
     const overviewSection = document.getElementById('overview')
     const topicsSection = document.getElementById('topics')
+    const speakersSection = document.getElementById('speakers')
     const datesSection = document.getElementById('important-dates')
     const authorsSection = document.getElementById('instructions-for-authors')
     const committeeSection = document.getElementById('committee')
@@ -632,11 +653,12 @@ describe('HVG single-page site', () => {
 
     Object.defineProperty(overviewSection, 'offsetTop', { configurable: true, value: 0 })
     Object.defineProperty(topicsSection, 'offsetTop', { configurable: true, value: 780 })
-    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 1420 })
-    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2080 })
-    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 2740 })
-    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 3440 })
-    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(speakersSection, 'offsetTop', { configurable: true, value: 1420 })
+    Object.defineProperty(datesSection, 'offsetTop', { configurable: true, value: 2080 })
+    Object.defineProperty(authorsSection, 'offsetTop', { configurable: true, value: 2740 })
+    Object.defineProperty(committeeSection, 'offsetTop', { configurable: true, value: 3440 })
+    Object.defineProperty(scheduleSection, 'offsetTop', { configurable: true, value: 4100 })
+    Object.defineProperty(contactSection, 'offsetTop', { configurable: true, value: 4760 })
 
     const scheduleTab = screen.getByRole('link', { name: 'WORKSHOP SCHEDULE' })
     const topicsTab = screen.getByRole('link', { name: 'TOPICS' })
@@ -731,10 +753,16 @@ describe('HVG single-page site', () => {
     expect(within(overviewSection).queryByText(/Text-Driven Synthesis/i)).not.toBeInTheDocument()
   })
 
-  it('renders Important Dates, Committee updates, Workshop Schedule, and Contact', () => {
+  it('renders Speakers, Important Dates, Committee updates, Workshop Schedule, and Contact', () => {
     render(<App />)
 
+    const speakersSection = screen.getByRole('heading', { name: 'Speakers' }).closest('section')
+    const speakersCard = within(speakersSection).getByText('To Be Determined').closest('article')
     const importantDatesSection = screen.getByRole('heading', { name: 'Important Dates' }).closest('section')
+
+    expect(screen.getByRole('heading', { name: 'Speakers' })).toBeInTheDocument()
+    expect(within(speakersSection).getByText('To Be Determined')).toBeInTheDocument()
+    expect(speakersCard.className).toContain('bg-white')
 
     expect(screen.getByRole('heading', { name: 'Important Dates' })).toBeInTheDocument()
     expect(within(importantDatesSection).getByTestId('important-date-row-0').textContent).toBe(

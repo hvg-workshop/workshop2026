@@ -5,6 +5,7 @@ describe('workshop content model', () => {
     expect(workshopContent.tabs.map((tab) => tab.label)).toEqual([
       'OVERVIEW',
       'Topics',
+      'Speakers',
       'Important Dates',
       'Instructions for Authors',
       'Committee',
@@ -18,6 +19,9 @@ describe('workshop content model', () => {
 
     expect(workshopContent.topics.title).toBe('Topics')
     expect(workshopContent.topics.items.length).toBeGreaterThan(3)
+
+    expect(workshopContent.speakers.title).toBe('Speakers')
+    expect(workshopContent.speakers.statusText).toBe('To Be Determined')
 
     expect(workshopContent.importantDates.title).toBe('Important Dates')
     expect(workshopContent.importantDates.items).toEqual([
