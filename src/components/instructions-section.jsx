@@ -12,7 +12,14 @@ function InstructionCard({ title, children }) {
 export function AuthorsSection({ instructions }) {
   const [guidelinesBeforeLink, guidelinesAfterLink] = instructions.submissionGuidelines.split('ICPR 2026 website')
   const emphasisLinkClass =
-    'text-[1.125rem] font-bold text-[var(--color-text)] underline decoration-[var(--color-text)] decoration-2 underline-offset-4'
+    'text-[1rem] font-bold text-[var(--color-text)] underline decoration-[var(--color-text)] decoration-2 underline-offset-4'
+  // 显式声明下划线样式，避免被全局链接 reset 覆盖后出现视觉回退。
+  const emphasisLinkStyle = {
+    textDecorationLine: 'underline',
+    textDecorationColor: 'var(--color-text)',
+    textDecorationThickness: '2px',
+    textUnderlineOffset: '0.22em',
+  }
 
   return (
     <SectionShell
@@ -29,6 +36,7 @@ export function AuthorsSection({ instructions }) {
                 target="_blank"
                 rel="noreferrer"
                 className={emphasisLinkClass}
+                style={emphasisLinkStyle}
               >
                 ICPR 2026 website
               </a>
@@ -43,6 +51,7 @@ export function AuthorsSection({ instructions }) {
                 target="_blank"
                 rel="noreferrer"
                 className={emphasisLinkClass}
+                style={emphasisLinkStyle}
               >
                 the Microsoft CMT submission system
               </a>

@@ -683,10 +683,22 @@ describe('HVG single-page site', () => {
     expect(icprWebsiteLink).toHaveAttribute('target', '_blank')
     expect(icprWebsiteLink.className).toContain('font-bold')
     expect(icprWebsiteLink.className).toContain('text-[var(--color-text)]')
-    expect(icprWebsiteLink.className).toContain('text-[1.125rem]')
+    expect(icprWebsiteLink.className).toContain('text-[1rem]')
+    expect(icprWebsiteLink.className).toContain('underline')
+    expect(icprWebsiteLink.className).toContain('underline-offset-4')
+    expect(icprWebsiteLink).toHaveStyle({
+      textDecorationLine: 'underline',
+      textUnderlineOffset: '0.22em',
+    })
     expect(cmtLink.className).toContain('font-bold')
     expect(cmtLink.className).toContain('text-[var(--color-text)]')
-    expect(cmtLink.className).toContain('text-[1.125rem]')
+    expect(cmtLink.className).toContain('text-[1rem]')
+    expect(cmtLink.className).toContain('underline')
+    expect(cmtLink.className).toContain('underline-offset-4')
+    expect(cmtLink).toHaveStyle({
+      textDecorationLine: 'underline',
+      textUnderlineOffset: '0.22em',
+    })
     expect(
       screen.getByText(
         'The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.',
