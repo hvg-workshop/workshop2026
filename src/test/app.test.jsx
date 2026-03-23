@@ -678,7 +678,7 @@ describe('HVG single-page site', () => {
     const cmtLink = screen.getByRole('link', { name: /the microsoft cmt submission system/i })
 
     expect(icprWebsiteLink).toHaveAttribute('href', 'https://icpr2026.org/authors.html')
-    expect(cmtLink).toHaveAttribute('href', 'https://cmt3.research.microsoft.com/')
+    expect(cmtLink).toHaveAttribute('href', 'https://cmt3.research.microsoft.com/HVG2026')
     expect(cmtLink).toHaveAttribute('target', '_blank')
     expect(icprWebsiteLink).toHaveAttribute('target', '_blank')
     expect(icprWebsiteLink.className).toContain('font-bold')

@@ -67,7 +67,7 @@ export const workshopContent = {
     submissionGuidelines:
       'The conference workshop proceeding will be published in the Lecture Notes in Computer Science (LNCS) series. The authors requested to submit the papers in LNCS format available on the ICPR 2026 website. Each paper must have a minimum length of 6 pages and should not exceed 15 pages, including references. If the paper exceeds 15 pages, the authors must pay 150€ for each additional page.',
     authorsWebsiteUrl: 'https://icpr2026.org/authors.html',
-    submissionSystemUrl: 'https://cmt3.research.microsoft.com/',
+    submissionSystemUrl: 'https://cmt3.research.microsoft.com/HVG2026',
     cmtAcknowledgement:
       'The Microsoft CMT service was used for managing the peer-reviewing process for this conference. This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.',
     ethics:
