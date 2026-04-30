@@ -61,9 +61,9 @@ export const workshopContent = {
   importantDates: {
     title: 'Important Dates',
     items: [
-      'Submission Deadline: May 01, 2026',
-      'Author Notification: June 10, 2026',
-      'Camera-Ready Deadline: June 20, 2026',
+      'Submission Deadline: May 14, 2026',
+      'Author Notification: May 30, 2026',
+      'Camera-Ready Deadline: June 15, 2026',
       'Workshop Date: August 21, 2026',
     ],
   },
