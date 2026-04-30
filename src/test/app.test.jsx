@@ -778,13 +778,13 @@ describe('HVG single-page site', () => {
     expect(screen.getByRole('heading', { name: 'Important Dates' })).toBeInTheDocument()
     expect(importantDatesRail.className).toContain('border-l')
     expect(within(importantDatesSection).getByTestId('important-date-row-0').textContent).toBe(
-      'Submission Deadline:May 01, 2026',
+      'Submission Deadline:May 14, 2026',
     )
     expect(within(importantDatesSection).getByTestId('important-date-row-1').textContent).toBe(
-      'Author Notification:June 10, 2026',
+      'Author Notification:May 30, 2026',
     )
     expect(within(importantDatesSection).getByTestId('important-date-row-2').textContent).toBe(
-      'Camera-Ready Deadline:June 20, 2026',
+      'Camera-Ready Deadline:June 15, 2026',
     )
     expect(within(importantDatesSection).getByTestId('important-date-row-3').textContent).toBe(
       'Workshop Date:August 21, 2026',
