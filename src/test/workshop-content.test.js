@@ -25,9 +25,9 @@ describe('workshop content model', () => {
 
     expect(workshopContent.importantDates.title).toBe('Important Dates')
     expect(workshopContent.importantDates.items).toEqual([
-      'Submission Deadline: May 14, 2026',
-      'Author Notification: May 30, 2026',
-      'Camera-Ready Deadline: June 15, 2026',
+      'Submission Deadline: May 21, 2026',
+      'Author Notification: June 6, 2026',
+      'Camera-Ready Deadline: June 22, 2026',
       'Workshop Date: August 21, 2026',
     ])
 
